@@ -1,0 +1,171 @@
+#Swagatam Bera
+#Encryptix task 1
+import re
+import random
+
+response_data = [
+    {
+        "response_type": "greeting",
+        "user_input": ["hello", "hi", "hey", "yo", "hii", "greetings", "sup"],
+        "bot_response": "Hey there!",
+        "required_words": []
+    },
+    {
+        "response_type": "farewell",
+        "user_input": ["see you", "goodbye", "bye", "later", "farewell", "take care", "catch you later"],
+        "bot_response": "See you later!",
+        "required_words": []
+    },
+    {
+        "response_type": "greeting",
+        "user_input": ["nice to meet you", "pleasure to meet you", "good to meet you"],
+        "bot_response": "The pleasure is all mine!",
+        "required_words": ["nice", "meet", "you"]
+    },
+    {
+        "response_type": "wellbeing",
+        "user_input": ["how are you", "how's it going", "how are you doing", "how do you do", "how have you been"],
+        "bot_response": "I am absolutely fine, thank you for asking",
+        "required_words": ["how","you"]
+    },
+    {
+        "response_type": "help",
+        "user_input": ["help", "assist", "support", "need help", "can you help", "can you assist", "need support"],
+        "bot_response": "Sure, I'm here to help! What do you need assistance with?",
+        "required_words": ["help", "assist", "support"]
+    },
+    {
+        "response_type": "information",
+        "user_input": ["tell me about", "information on", "details on", "info about", "can you tell me about", "give me info on"],
+        "bot_response": "I am still a bot under construction, i can not provide information on a specific topic, however we can have a general conversation",
+        "required_words": ["tell", "about", "information", "details", "info"]
+    },
+    {
+        "response_type": "thanks",
+        "user_input": ["thank you", "thanks", "thx", "thank", "thank you very much", "much appreciated"],
+        "bot_response": "You're welcome! Happy to help.",
+        "required_words": ["thank"]
+    },
+    {
+        "response_type": "affirmation",
+        "user_input": ["yes", "yeah", "yup", "sure", "okay", "alright", "definitely"],
+        "bot_response": "Great!",
+        "required_words": []
+    },
+    {
+        "response_type": "negation",
+        "user_input": ["no", "nope", "nah", "not really", "don't think so"],
+        "bot_response": "Alright, let me know if there's anything else you need.",
+        "required_words": []
+    },
+    {
+        "response_type": "weather",
+        "user_input": ["weather", "forecast", "temperature", "climate", "weather update", "how's the weather"],
+        "bot_response": "I can't provide real-time weather updates, but you can check your local weather online!",
+        "required_words": ["weather", "forecast", "temperature", "climate"]
+    },
+    {
+        "response_type": "joke",
+        "user_input": ["tell me a joke", "joke", "make me laugh", "funny", "say something funny", "give me a joke"],
+        "bot_response": "I told a bad chemistry joke once. It didnt get much of a reaction",
+        "required_words": ["joke", "funny", "laugh"]
+    },
+    {
+        "response_type": "compliment",
+        "user_input": ["you are great", "you're awesome", "good bot", "smart bot", "you are amazing", "you are the best"],
+        "bot_response": "Thank you! I'm glad to be of service.",
+        "required_words": ["great", "awesome", "good", "smart", "amazing", "best"]
+    },
+    {
+        "response_type": "opinion",
+        "user_input": ["what do you think", "your opinion", "do you like", "how do you feel", "what's your take"],
+        "bot_response": "I don't have personal opinions, but I can provide information on the topic.",
+        "required_words": ["think", "opinion", "like", "feel", "take"]
+    },
+    {
+        "response_type": "time",
+        "user_input": ["what time is it", "current time", "time now", "what's the time", "can you tell me the time"],
+        "bot_response": "I'm unable to tell the current time, but you can check your device for the time.",
+        "required_words": ["time"]
+    },
+    {
+        "response_type": "date",
+        "user_input": ["what's the date", "today's date", "current date", "date today", "can you tell me the date"],
+        "bot_response": "I don't have real-time access, but you can check your device for the date.",
+        "required_words": ["date"]
+    },
+    {
+        "response_type": "name",
+        "user_input": ["what's your name", "who are you", "your name", "what do I call you", "may I know your name"],
+        "bot_response": "My name is Mr Bot",
+        "required_words": ["name", "who are you"]
+    },
+    {
+        "response_type": "creator",
+        "user_input": ["who created you", "who made you", "your creator", "who is your maker", "who built you"],
+        "bot_response": "I dont really know",
+        "required_words": ["created", "made", "creator", "maker", "built","you"]
+    },
+    {
+        "response_type": "location",
+        "user_input": ["where are you", "your location", "where do you live", "where are you located", "where can I find you"],
+        "bot_response": "I exist in the digital world, ready to assist you from anywhere!",
+        "required_words": ["where", "location", "live", "located", "find"]
+    },
+    {
+        "response_type": "favorite",
+        "user_input": ["what's your favourite", "your favourite", "do you like", "favourite thing", "what do you like"],
+        "bot_response": "I like sleeping, hehe",
+        "required_words": ["favourite", "like"]
+    },
+    {
+        "response_type": "hobby",
+        "user_input": ["what's your hobby", "what do you do for fun", "hobbies", "do you have hobbies", "what do you enjoy doing"],
+        "bot_response": "I would say..........reading books",
+        "required_words": ["hobby", "hobbies", "fun", "enjoy"]
+    },
+    {
+        "response_type": "age",
+        "user_input": ["how old are you", "your age", "when were you created", "what's your age", "how many years old are you"],
+        "bot_response": "I am 20 years old",
+        "required_words": ["how old", "age", "created", "years old","you","your"]
+    }
+]
+
+def random_string():
+    other_responses = [
+        "Could you please elaborate?",
+        "Not sure I understand what you mean.",
+        "What do you mean by that?",
+        "I am unable to understand."
+    ]
+    return random.choice(other_responses)
+
+def give_answers(input_string):
+    if input_string.strip() == "":
+        return "Please type something so we can chat :("
+
+    splitted_format = re.split(r'\s+|[,;?!.-]\s*', input_string.lower())
+    store_responses = []
+
+    for response in response_data:
+        response_score = 0
+
+        if response["required_words"]:
+            response_score += sum(word in splitted_format for word in response["required_words"])
+
+        response_score += sum(word in splitted_format for word in response["user_input"])
+
+        store_responses.append(response_score)
+
+    best_response = max(store_responses)
+    response_index = store_responses.index(best_response)
+
+    if best_response != 0:
+        return response_data[response_index]["bot_response"]
+
+    return random_string()
+
+while True:
+    inp = input("Me: ")
+    print("Mr bot:", give_answers(inp))
